@@ -1,0 +1,8 @@
+[book]
+title  = "Linux Guides"
+author = "icmx"
+src    = "source"
+
+[build]
+create-missing = false
+build-dir      = "output"
