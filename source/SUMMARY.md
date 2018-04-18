@@ -14,7 +14,7 @@
     - [Filesystem](2-components/21-filesystem.md)
     - [Users and Groups](2-components/31-users-and-groups.md)
   - [Classic Software (Command Line Usage)](3-software-classic/00-abstract.md)
-    - [Getting Help and Information](10-software-classic/02-getting-help-and-information.md)
+    - [Getting Help and Information](3-software-classic/10-getting-help-and-information.md)
     - [Files and Directories](3-software-classic/20-files-and-directories.md)
     - [System Information](3-software-classic/30-system-information.md)
     - [Text Operations](3-software-classic/40-text-operations.md)
