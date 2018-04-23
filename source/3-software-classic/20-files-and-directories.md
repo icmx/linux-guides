@@ -2,12 +2,11 @@
 
 ## Navigation
 
-### `ls` — List Files
+### *ls* — List Files
 
 ```
-  ls [options...] [targets...]
+ls [options...] [targets...]
 ```
-
 Print *target* directory(es) contents.
 
 Options:
@@ -17,21 +16,21 @@ Options:
   - `-l` long listing (file per line, lots of info)
   - `-h` human-readable (for file size in `-l`)
 
-### `cd` — Change Directory
+### *cd* — Change Directory
 
 ```
-  cd [target]
+cd [target]
 ```
 
-Change current directory to *target*. Will use home directory if *target* isn't specified.
+Will use home directory if *target* isn't specified.
 
-### `less` — View File Contents
+### *less* — View File Contents
 
 ```
-  less file
+less file
 ```
 
-Interactively displays a *file* contents. This tool is newer alternative for `more` text viewer, that's why it's got such strange name. Similar commands are called "pagers" sometimes.
+Interactively displays *file* contents. This tool is newer alternative for `more` text viewer, that's why it's got such strange name. Similar commands are called "pagers" sometimes.
 
 Navigation within:
 
@@ -40,11 +39,10 @@ Navigation within:
   - `/pattern`: search for a *pattern* (regular expressions and backslashing are supported).
   - `n`, `N`: move to next or previous occurence.
 
-
-### `file` — Determine Type
+### *file* — Determine Type
 
 ```
-  file [options...] targets...
+file [options...] targets...
 ```
 
 Options:
@@ -57,28 +55,28 @@ Despite the name, this tool works also for directories and links.
 
 ## Creation
 
-### `touch` — Create or Update File
+### *touch* — Create or Update
 
 ```
-  touch targets...
+touch targets...
 ```
 
 Creates new *target* empty file(s) or update access time for old one(s). Directories access time can be also updated with this tool.
 
-### `mkdir` — Make a Directory
+### *mkdir* — Make a Directory
 
 ```
-  mkdir [options...] targets...
+mkdir [options...] targets...
 ```
 
-Option `-p` creates directrory parents too (even if they're not exist). It's useful when you e.g. need to create multiple nested directories at once, like `~/Music/Kraftwerk/Man-Machine`.
+Option `-p` creates directrory parents too (even if they're not exist). It's useful when you e.g. need to create multiple nested directories at once, like `~/Documents/Guides/Linux`.
 
 ## Management
 
-### `cp` — Copy
+### *cp* — Copy
 
 ```
-  cp [options...] source target
+cp [options...] source target
 ```
 
 Options:
@@ -90,10 +88,10 @@ Options:
 
 One must set `-r` option to copy the directory.
 
-### `mv` — Move
+### *mv* — Move
 
 ```
-  mv [options...] source target
+mv [options...] source target
 ```
 
 Options:
@@ -105,10 +103,10 @@ Options:
 
 Unlike `cp` command, `mv` don't need a recursive flag to move the directory.
 
-### `rm` — Remove
+### *rm* — Remove
 
 ```
-  rm [options...] target
+rm [options...] target
 ```
 
 Options:
@@ -119,24 +117,24 @@ Options:
 
 **Use it with caution**. Never do `rm -rf` for root `/`, home `~` or similar *targets*.
 
-### `ln` — Link
+### *ln* — Link
 
 ```
-  ln [options...] source target
+ln [options...] source target
 ```
 
-Creates link object located in *target* and refering to *source*, so system will be able to use *target* while actual resource is placed in the *source*.
+Creates link object located in *target* and refering to *source*, so system will be able to use *target* while actual resource is placed in the *source*. It's might be useful e.g. for multiple object copies management.
 
-You can link both to files and directories.
+Option `-s` makes symbolic links instead of hard ones — that's what one need at most of time.
 
-Option `-s` makes symbolic links instead of hard ones —  that's what one need at most of time.
+One can link both to files and directories.
 
 ## Archiving and Compression
 
-### `tar` — Archive
+### *tar* — Pack
 
 ```
-  tar [options...] target [source]
+tar [options...] target [source]
 ```
 
 Options:
@@ -152,12 +150,12 @@ Examples:
   - `tar -c -f backup.tar file-1 file-2 file-3` create TAR (`backup.tar`) with files `file-1`, `file-2` and `file-3`
   - `tar -x -f backup.tar` extract previous TAR contents to current directory
 
-TAR format just packs all the files into single one, while ZIP makes them compressed.
+As a file format, TAR just allocates all the contents into single file, while ZIP makes it compressed.
 
-### `gzip` — Compress
+### *gzip* — Compress
 
 ```
-  gzip [options...] file
+gzip [options...] file
 ```
 
 Options:
@@ -166,27 +164,27 @@ Options:
   - `-d` decompress file instead of default compression.
   - `-k` keep original files after successful compression or decompression. By default `gzip` will remove them.
 
-`gzip` compression only work with single file. To compress multiple files, use `tar` command before compression or switch to advaced archivers like `7z`.
+GZIP compression only works with single file. To compress multiple files, use *tar* command first or switch to advaced archivers like *7z*.
 
 ## Search
 
-### `locate` — Static
+### *locate* — Static
 
 ```
-  locate [options...] patterns...
+locate [options...] patterns...
 ```
 
 Option `-i` makes `locate` ignore case in *pattern(s)*.
 
-This tool works in *static* manner and thus requires index database. You should run `updatedb` as `root` at least once to use `locate` correctly. Better to set up some service or `cron` job to update database periodically.
+This tool works in *static* manner and thus requires index database. You should run `updatedb` as root at least once to use *locate* correctly. Better to set up some service or *cron* job to update database periodically.
 
-### `find` — Dynamic
+### *find* — Dynamic
 
 ```
-  find target [options...] [query...]
+find [target] [options...] [query...]
 ```
 
-*Target* shound be any directory, use dot `.` for current.
+*Target* shound be any directory, by default it's current.
 
 #### Queries
 
@@ -195,7 +193,7 @@ You can find files or directories by specifying one or multiple queries:
 ##### Queries with Parameter
 
   - `-name` search by object name specified (case sensitive), or `-iname` (insensitive)
-  - `-size` search by object size specified (`c` for bytes, `k` forkilobytes, `M` for megabytes, `G` for gigabytes, e.g. `1024`)
+  - `-size` search by object size specified (`c` for bytes, `k` forkilobytes, `M` for megabytes, `G` for gigabytes, e.g. `1024M`)
   - `-atime`, `-mtime` search by access or modification time specified in `n` × 24 hours (e.g. `2` means 48 hours ago)
   - `-type` search by object type: file (`f`), directory (`d`) or link (`l`)
   - `-user` search by object user name or UID (user ID)
@@ -208,7 +206,7 @@ You can find files or directories by specifying one or multiple queries:
 
 #### Operators:
 
-  - `( query )` force *query* presedence, probably should be escaped by backslashes `\( query \)` due to shell internal parenthesis
+  - `( query )` force *query* presedence, should be escaped by backslashes `\( query \)` due to shell internal parenthesis
   - `-not query` inverse *query* results (standard logical `NOT` operation)
   - `query-1 -and query-2 -and query-3 -and ...` find files that match all the *queries* specified (standard logical `AND` operation)
   - `query-1 -or query-2 -or query-3 -or ...` find files that match at least one of queries specified (standard logical `OR` operation)

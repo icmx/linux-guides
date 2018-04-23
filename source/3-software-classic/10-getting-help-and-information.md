@@ -2,24 +2,26 @@
 
 ### Help Options
 
-```
-  command --help
-  command -h
-  command -?
-  command --usage
-```
-You can use these options to get short usage info for command.
-
-  - Examples:
-    - `tr --help`
-    - `ping -h`
-
-Note: Not all the commands support these options.
-
-### `whatis` — Short Info
+You can use these options to get short usage info for command:
 
 ```
-  whatis [options...] objects...
+command --help
+command -h
+command -?
+command --usage
+```
+
+Examples:
+
+  - `tr --help`
+  - `ping -h`
+
+Not all the commands support such options, but most of them for sure.
+
+### *whatis* — Short Info
+
+```
+whatis [options...] objects...
 ```
 
 Options:
@@ -27,10 +29,10 @@ Options:
   - `-w` treat each target as a shell pattern style wildcards (`*`, `?`)
   - `-r` treat each target as a regular expression (`.*`, `.+`)
 
-### `man` — Detailed Info
+### *man* — Detailed Info
 
 ```
-  man [options...] [section] object
+man [options...] [section] object
 ```
 
 *Object* may be a command or file sometimes. Option `-K` searches for specified string in all of manual pages

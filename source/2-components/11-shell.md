@@ -2,10 +2,12 @@
 
 > **TODO**
 >
->   - Functions
->   - Exporting, sourcing, rc-files
+>   - Exporting, sourcing - move to separate file
+>   - rc-files
 >   - Expansion for `~`, `*`, `?`, `[a,b,c]`, `{a,b,c}`
 >   - Expansion for `${}` and `$()`
+>   - `&`, `|`, `&&`, `||` and `;`
+>   - `$1..9`, `$$`, `$!`, `$@`, `$*` and such
 >   - Maybe split all this
 
 While you're working with command line interface, you're actually working in a shell – a special kind of software that handles and parses all of user input, including typed text and shortcut events (even arrow keys that moves carret).
@@ -15,7 +17,7 @@ There are lots of different shells. As Linux user you should know at least these
   - *Bourne Again Shell*, better known as *Bash*. Considered as classic and default shell for almost any Linux distribution (and Void Linux too), it's simple yet flexible shell for generic users.
   - *Debian Almquist Shell*, or *Dash*. Althrough it have "Debian" in its name, this shell is actually multi-distributive and installed by default in Void too. This lightweight shell has no any human-oriented functions like auto-completion, keyboard shortcuts handling or color highlighting – instead, it provides fast experience which is actual for long standalone scripts.
 
-There are other even more advanced shells also, Z shell or fish shell for instance. However, I personally don't recommend you to use them: despite speed and usability improvements (comparing to Bash), you're actually won't see any diffrence. Custom shells are real overkill for generic non-power users like you and me.
+There are other even more advanced shells also, Z shell or Fish shell for instance. However, I personally don't recommend you to use them: despite speed and usability improvements (comparing to Bash), you're actually won't see any diffrence. Custom shells are real overkill for generic non-power users like you and me.
 
 > **\* Void-specific**
 >
@@ -25,7 +27,7 @@ There are other even more advanced shells also, Z shell or fish shell for instan
 
 ### Prompt
 
-That thing you see from the left side of each command. It's intended to *prompt* your current status (or context) as a user in system. Bash prompt looks similar to this:
+That thing you see from the left side of each command. It's intended to *prompt* your current status (or context) as a user in system. Bash prompt mostly looks similar to this:
 
 ```
          it's all prompt
@@ -37,7 +39,7 @@ It means the folowing:
 
   - Your account name is `curly`
   - Your PC name is `dragon`
-  - Your working directory is `~/Pictures`. This path actually points to `/home/curly/Pictures` since tilde `~` means current user home directory. This directory will be used any comands while performing, e.g. `mkdir Butterflies` command will create `Butterflies` directory right in the `~/Pictures`.
+  - Your working directory is `~/Pictures`. This path actually points to `/home/curly/Pictures` since tilde `~` means current user home directory. This directory will be used by any comand while performing, e.g. `mkdir Butterflies` command will create `Butterflies` directory right in the `~/Pictures`.
 
 In Bash, one can redefine prompt structure to display e.g. only current directory name by modifying the special `$PS1` variable.
 
@@ -61,7 +63,9 @@ name [options...] [targets...]
 
 #### Name
 
-Command name is something like  `cd`, `ls`, `mkdir`, `ping` etc. It refers to a real executable file name, e.g. `ls` is actually `/usr/bin/ls` file. Once name is parsed by the shell, it will be searched in directories that specified in `$PATH` shell variable.
+Something like  `cd`, `ls`, `mkdir`, `ping` etc. It refers to a real executable file name, e.g. `ls` is actually `/usr/bin/ls` file. Once name is parsed by the shell, it will be searched in directories that specified in `$PATH` shell variable.
+
+One can also find built-in commands which are not exists as a files in `$PATH` directories. For instance, Bash uses its own `echo`, `cd` and many other commands.
 
 #### Options
 
@@ -74,7 +78,7 @@ Command options are space separated key-value pairs also known as command argume
   - Values can be quoted with single or double quotes, e.g. `-a "file name"` or `--param='value with spaces'`.
   - Options list can be manually terminated with empty two dashes `--` option, so text after `--` will be treated as `target` part of command. Normally you don't have to do that, but sometimes you can e.g. face with files which names are similar to options keys. In that case `--` will be useful.
 
-All these options features are not strict rules, but more like style arrangements. There are some exceptions like `dd` or `tar` commands which have their own options style.
+All these features are not strict rules, but more like style arrangements. There are some exceptions like `dd` or `tar` commands which have their own options style.
 
 #### Target
 
@@ -200,7 +204,7 @@ Default value of `$PS2` is just a `>` character.
 
 ##### Structure of `$PATH`
 
-As it said, `$PATH` contains colon-separated list of directories where system executablee files are stored. One can easily check it in any time:
+As it said, `$PATH` contains colon-separated list of directories where system executablee files are stored. One can easily check it at any time:
 
 ```sh
 echo "$PATH"
@@ -208,7 +212,7 @@ echo "$PATH"
 # Will print something like: "/usr/local/bin:/usr/sbin:/sbin:/bin"
 ```
 
-When someone enters a command, e.g. `ping example.org`, all the text up to first space (i.e. `ping`) will be used to search in `$PATH` directories – and if file with such name exists, then it will be executed. If there are two files with the same name, e.g. `/usr/local/bin/ping` and `/bin/ping`, then file from first `$PATH` entry will be executed (i.e., `/usr/local/bin` has higher priority for current `$PATH` case).
+When someone enters a command, e.g. `ls /home/curly`, all the text up to first space (i.e. `ls`) will be used to search in `$PATH` directories – and if file with such name exists, then it will be executed. If there are two files with the same name, e.g. `/usr/local/bin/ls` and `/bin/ls`, then file from first `$PATH` entry will be executed (i.e., `/usr/local/bin` has higher priority for current `$PATH` case).
 
 One can add a custom executable files directory by appending `$PATH` value at any time:
 
@@ -221,3 +225,40 @@ PATH="/home/curly/bin:$PATH"
 That's it. Now executable files will be searched in `/home/curly/bin` directory too.
 
 *Note*: to make executable files available as a commands, one should also add a permission to execute (`x`) to such files.
+
+### Functions
+
+Functions is another shell element similar to programming languages'. It's a fragment of shell script (set of commands) that may be accessed by its name, for instance:
+
+```sh
+# function definition
+say_something() {
+  echo "Hello, $USER"
+}
+
+#function usage - they works just like commannds
+say_something
+
+# Will print: "Hello, curly"
+```
+
+Like commands, functions can take the arguments and return an integer values:
+
+```sh
+use_arguments() {
+  echo "$0: roses are $1, violets are $2"
+  return 0
+}
+
+use_arguments "red" "blue"
+
+# Will print:
+#
+#  "bash: roses are red, voilets are blue" — for interactive session
+#  "script-name.sh: roses are red, voilets are blue" — if launched from
+#  script file
+```
+
+Unlike classical functions from programming languages, `return` is used in process-like exit value manner and indicates function execution status (`0` is for success, other for different failure cases).
+
+Default function exit value is `0`.
