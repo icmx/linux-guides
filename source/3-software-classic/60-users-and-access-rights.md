@@ -8,6 +8,12 @@
   useradd [options...] logins...
 ```
 
+### Modify — `usermod`
+
+```plain
+usermod [options...]
+```
+
 ### Remove — `userdel`
 
 ```
@@ -101,6 +107,35 @@ Option `-c` set command to execute as another user, then switch back at the comm
 ```
 
 Option `-u` set user to run the command (`root` by default).
+
+#### Sudoers File
+
+Sudoers (*/etc/sudoers*, */etc/sudoers.d*) is a file that defines *sudo* behaviour. Its main part are *rule definitions*. Such definitions have the following syntax:
+
+```plain
+user host=(runas) options commands
+```
+
+  - *user* — user or group of users on which that rule is applied. Group name must be started with percent character, e.g. `%wheel`.
+  - *host* — host on which this rule is allowed, or `ALL` for any host.
+  - *runas* — allow to execute the commands only as users listed in *runas*. `ALL` will let one execute any command as any specified user with `sudo -u user` (root is considered as default in `-u` option).
+  - *options* — options list for current rule, e.g. NOPASSWD will let one execute commands without asking a password. Multiple options
+ must be separated by space. Any option consist of key and value separated by colon. If value is not available (like in NOPASSWD), then option just ends with colon.
+  - *commands* — list of commands which may be executed within this rule. Multiple commands must be separated by comma. `ALL` instead of commands means any command available in a system.
+
+One can also define the so-called aliases by following syntax:
+
+```plain
+type NAME = items
+```
+
+  - *type* — alias type:
+    - User_Alias — for users list
+    - Host_Alias — for hosts list
+    - Runas_Alias — for runas users list (see *runas* part above)
+    - Cmnd_Alias — for commands list
+  - *NAME* — name of alias, must use only uppercase letters, numbers and underscores.
+  - *items* — users, hosts, runas users or commands, separated by comma.
 
 ### Notes
 
