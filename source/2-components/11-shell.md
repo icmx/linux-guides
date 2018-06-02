@@ -7,7 +7,7 @@
 >   - Expansion for `~`, `*`, `?`, `[a,b,c]`, `{a,b,c}`
 >   - Expansion for `${}` and `$()`
 >   - `&`, `|`, `&&`, `||` and `;`
->   - `$1..9`, `$$`, `$!`, `$@`, `$*` and such
+>   - `$1..9`, `$$`, `$!`, `$@`, `$*`, `$-` and such
 >   - Maybe split all this
 
 While you're working with command line interface, you're actually working in a shell – a special kind of software that handles and parses all of user input, including typed text and shortcut events (even arrow keys that moves carret).
